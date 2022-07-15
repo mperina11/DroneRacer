@@ -1,11 +1,22 @@
 function debug_drawSectors() {
     //  x1,y1 ,x2,y2
-    line(0, 0, 0, 500);
-    line(250, 0, 250, 500);
-    line(500, 0, 500, 500);
-    line(750, 0, 750, 500);
-    line(1000, 0, 1000, 500);
-    line(0, 250, 1000, 250);
+    line(0, 0, 0, 600);
+    line(300, 0, 300, 600);
+    line(600, 0, 600, 600);
+    line(900, 0, 900, 600);
+    line(1200, 0, 1200, 600);
+    line(0, 300, 1200, 300);
+  }
+
+  function debug_drawSectorOffsets() {
+    for (let i=0; i < 4; i++) {
+      line(Sectors[i].x1, 0, Sectors[i].x1, 600);
+      line(Sectors[i].x2, 0, Sectors[i].x2, 600);
+    }
+    line(0, Sectors[0].y1, 1200, Sectors[0].y1);
+    line(0, Sectors[0].y2, 1200, Sectors[0].y2);
+    line(0, Sectors[7].y1, 1200, Sectors[7].y1);
+    line(0, Sectors[7].y2, 1200, Sectors[7].y2);
   }
   
   function debug_drawPoints() {
