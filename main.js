@@ -2,8 +2,14 @@
 const canvasW = 1000;
 const canvasH = 500;
 
+// Gates sizes
+const gateW = 20;
+const gateH = 50;
+const gateOffsetX = 10;
+const gateOffsetY = 25;
+
 // seed
-let seed = 12345;
+let seed = 123456;
 
 // Colors
 const mix =  ["#9B5DE5","#F15BB5","#FEE440","#00BBF9","#00F5D4", "#FFBE0B","#FB5607","#FF006E","#8338EC","#3A86FF"];
@@ -14,14 +20,15 @@ let debug = true;
 
 // Points
 let Points = [];
+let gateEdges = [];
 
 
 function setup() {
   createCanvas(canvasW, canvasH);
-  createButton("Reroll").mousePressed(() => { seed++; createPoints(); });
+  createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
   createP("- Something");
 
-  createPoints();
+  createPoints_Gates();
 
 
 //   flock = new Flock();
@@ -41,13 +48,14 @@ function draw() {
     debug_drawSectors();
     debug_drawPoints();
     debug_drawPointLines();
+    debug_drawRectPoints();
   }
 
   createGates();
 
 }
 
-function createPoints() {
+function createPoints_Gates() {
   for (let i=0; i < Sectors.length; i++) {
     Points[i] = {
       "p": i + 1,
@@ -55,14 +63,34 @@ function createPoints() {
       "y": random(Sectors[i].y1, Sectors[i].y2)
     };
   }
+
+  for (let i = 0; i < Sectors.length; i++) {
+    gateEdges[i] = {
+      "g": i + 1,
+      "tl_x": Points[i].x - gateOffsetX, // Top Left
+      "tl_y": Points[i].y - gateOffsetY,
+      "tr_x": Points[i].x + gateOffsetX, // Top Right
+      "tr_y": Points[i].y - gateOffsetY,
+      "bl_x": Points[i].x - gateOffsetX, // Bottom Left
+      "bl_y": Points[i].y + gateOffsetY,
+      "br_x": Points[i].x + gateOffsetX, // Bottom Right
+      "br_y": Points[i].y + gateOffsetY,
+    };
+  }
+
   console.log(Points);
+  console.log(gateEdges);
 }
 
 function createGates() {
   fill('orange');
   for (let i=0; i < Points.length; i++) {
-    rect(Points[i].x, Points[i].y, 20, 50);
+    rect(Points[i].x - gateOffsetX, Points[i].y - gateOffsetY, gateW, gateH);    
   }
+}
+
+function createTrack() {
+  bezier(85, 20, 10, 10, 90, 90, 15, 80);
 }
 
 function debug_drawSectors() {
@@ -90,4 +118,14 @@ function debug_drawPointLines() {
     else {
       line(Points[i].x, Points[i].y, Points[i+1].x, Points[i+1].y);
     }
-  }}
+  }
+}
+
+function debug_drawRectPoints() {
+  for (let i=0; i < gateEdges.length; i ++) {
+    circle(gateEdges[i].tl_x, gateEdges[i].tl_y, 10);
+    circle(gateEdges[i].tr_x, gateEdges[i].tr_y, 10);
+    circle(gateEdges[i].bl_x, gateEdges[i].bl_y, 10);
+    circle(gateEdges[i].br_x, gateEdges[i].br_y, 10);
+  }
+}
