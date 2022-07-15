@@ -27,7 +27,7 @@ function setup() {
   createCanvas(canvasW, canvasH);
   createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
   createButton("Toggle Debug").mousePressed(() => { if (debug) {debug=false;} else {debug=true;} });
-  createP("- Something");
+  createP("- text here");
 
   createPoints_Gates();
 }
