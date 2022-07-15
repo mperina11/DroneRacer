@@ -1,7 +1,7 @@
 // Added 50 to x1,y1 and -50 to x2,y2
 
 
-const S1 = { // 1
+const S1 = { // 1, Offset start gate more
     "x1": 50,
     "x2": 200,
     "y1": 50,

@@ -22,6 +22,8 @@ let debug = true;
 let Points = [];
 let gateEdges = [];
 
+// Drones
+let swarm; // hold drones 
 
 function setup() {
   createCanvas(canvasW, canvasH);
@@ -43,12 +45,13 @@ function draw() {
     // debug_drawPointLines();
     debug_drawRectPoints();
   }
-
+  
   createGates();
   createTrackCornersLeft();
   createTrackCornersRight();
   createTrackLines();
 
+  testDraw();
 }
 
 function createPoints_Gates() {
@@ -116,8 +119,9 @@ function createTrackCornersLeft() {
   // circle(p_ab2.x, p_ab2.y, 10);
 
   noFill();
+  push();
   bezier(gateEdges[7].tl_x, gateEdges[7].tl_y, p_ab1.x, p_ab1.y, p_ab2.x, p_ab2.y, gateEdges[0].bl_x, gateEdges[0].bl_y);
-
+  pop();
 
   // 1T to 8B
   let C = createVector(gateEdges[0].tl_x, gateEdges[0].tl_y);
@@ -135,7 +139,9 @@ function createTrackCornersLeft() {
   p_cd1.x -= 25*3;
   p_cd2.x -= 25*3;   
   
+  push();
   bezier(gateEdges[7].bl_x, gateEdges[7].bl_y, p_cd1.x, p_cd1.y, p_cd2.x, p_cd2.y, gateEdges[0].tl_x, gateEdges[0].tl_y);
+  pop();
 }
 
 function createTrackCornersRight() {
@@ -169,8 +175,9 @@ function createTrackCornersRight() {
   // circle(p_ab2.x, p_ab2.y, 10);
 
   noFill();
+  push();
   bezier(gateEdges[4].tr_x, gateEdges[4].tr_y, p_ab1.x, p_ab1.y, p_ab2.x, p_ab2.y, gateEdges[3].br_x, gateEdges[3].br_y);
-
+  pop();
 
   // 3T to 4B
   let C = createVector(gateEdges[3].tr_x, gateEdges[3].tr_y);
@@ -188,7 +195,9 @@ function createTrackCornersRight() {
   p_cd1.x += 25*3;
   p_cd2.x += 25*3;   
   
+  push();
   bezier(gateEdges[4].br_x, gateEdges[4].br_y, p_cd1.x, p_cd1.y, p_cd2.x, p_cd2.y, gateEdges[3].tr_x, gateEdges[3].tr_y);
+  pop();
 }
 
 function createTrackLines() {
@@ -202,41 +211,44 @@ function createTrackLines() {
   }
 }
 
-function debug_drawSectors() {
-  //  x1,y1 ,x2,y2
-  line(0, 0, 0, 500);
-  line(250, 0, 250, 500);
-  line(500, 0, 500, 500);
-  line(750, 0, 750, 500);
-  line(1000, 0, 1000, 500);
-  line(0, 250, 1000, 250);
-}
+function testDraw() {
+  push();
+  
+  fill('yellow');
+  noStroke();
+  translate(200, 200);
+  
+  beginShape();
 
-function debug_drawPoints() {
-  fill('red');
-  for (let i=0; i < Points.length; i++) {
-    circle(Points[i].x, Points[i].y, 10);
-  }
-}
+  // Top Left
+  vertex(5, -5); 
+  vertex(20, -10);
+  vertex(25, -25);
+  vertex(10, -20);
+  vertex(5, -5);
 
-function debug_drawPointLines() {
-  for (let i=0; i < Points.length; i++) {
-    if (i == 7) { // end to start
-      line(Points[i].x, Points[i].y, Points[0].x, Points[0].y);
-    }
-    else {
-      line(Points[i].x, Points[i].y, Points[i+1].x, Points[i+1].y);
-    }
-  }
-}
+  // Bottom Right
+  vertex(5, 5); 
+  vertex(20, 10);
+  vertex(25, 25);
+  vertex(10, 20);
+  vertex(5, 5);
 
-function debug_drawRectPoints() {
-  fill('red');
-  for (let i=0; i < gateEdges.length; i++) {
-    circle(gateEdges[i].tl_x, gateEdges[i].tl_y, 10);
-    circle(gateEdges[i].tr_x, gateEdges[i].tr_y, 10);
-    circle(gateEdges[i].bl_x, gateEdges[i].bl_y, 10);
-    circle(gateEdges[i].br_x, gateEdges[i].br_y, 10);
-  }
-}
+  // Bottom Left
+  vertex(-5, 5); 
+  vertex(-20, 10);
+  vertex(-25, 25);
+  vertex(-10, 20);
+  vertex(-5, 5);
 
+  // Top Left
+  vertex(-5, -5); 
+  vertex(-20, -10);
+  vertex(-25, -25);
+  vertex(-10, -20);
+  vertex(-5, -5);
+
+  endShape();
+  
+  pop();
+}
