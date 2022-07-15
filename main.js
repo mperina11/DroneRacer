@@ -26,7 +26,7 @@ let gateEdges = [];
 function setup() {
   createCanvas(canvasW, canvasH);
   createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
-  createButton("Debug off").mousePressed(() => { debug = false; });
+  createButton("Toggle Debug").mousePressed(() => { if (debug) {debug=false;} else {debug=true;} });
   createP("- Something");
 
   createPoints_Gates();
@@ -39,13 +39,15 @@ function draw() {
   // Debug
   if (debug) {
     debug_drawSectors();
-    debug_drawPoints();
+    // debug_drawPoints();
     // debug_drawPointLines();
     debug_drawRectPoints();
   }
 
   createGates();
-  createTrack();
+  createTrackCornersLeft();
+  createTrackCornersRight();
+  createTrackLines();
 
 }
 
@@ -83,19 +85,7 @@ function createGates() {
   }
 }
 
-function createTrack() {
-  //         a,  a,  c,  c,  c,  c,  a,  a
-  // bezier(x1, y1, x2, y2, x3, y3, x4, y4)
-  // for (let i=0; i < gateEdges.length; i ++) {
-  //   bezier(gateEdges[i].tl_x, gateEdges[i].tl_y, , , , , , );
-  //   bezier(gateEdges[i].tr_x, gateEdges[i].tr_y, , , , , , );
-  //   bezier(gateEdges[i].bl_x, gateEdges[i].bl_y, , , , , , );
-  //   bezier(gateEdges[i].br_x, gateEdges[i].br_y, , , , , , );
-  // }
-
-  // bezier(gateEdges[7].tl_x, gateEdges[7].tr_y, , , , , gateEdges[0].br_x, gateEdges[0].br_y);
-
-
+function createTrackCornersLeft() {
   // A = 1_bl
   // B = 8_tl
   // C = 1_tl
@@ -148,6 +138,70 @@ function createTrack() {
   bezier(gateEdges[7].bl_x, gateEdges[7].bl_y, p_cd1.x, p_cd1.y, p_cd2.x, p_cd2.y, gateEdges[0].tl_x, gateEdges[0].tl_y);
 }
 
+function createTrackCornersRight() {
+  // A = 3_br
+  // B = 4_tr
+  // C = 3_tr
+  // D = 4_br
+
+  // 1B to 8T
+  let A = createVector(gateEdges[3].br_x, gateEdges[3].br_y);
+  let B = createVector(gateEdges[4].tr_x, gateEdges[4].tr_y);
+  
+  let dist = p5.Vector.dist(A, B);
+  let ab1 = dist * 0.25;
+  let ab2 = dist * 0.75;  
+  
+  let unit_ab = p5.Vector.sub(A, B);
+  unit_ab.normalize();
+  
+  let p_ab1 = createVector(B.x + unit_ab.x * ab1, B.y + unit_ab.y * ab1);
+  let p_ab2 = createVector(B.x + unit_ab.x * ab2, B.y + unit_ab.y * ab2);  
+
+  // fill('red');
+  // circle(p_ab1.x, p_ab1.y, 10);
+  // circle(p_ab2.x, p_ab2.y, 10);
+
+  p_ab1.x += 25;
+  p_ab2.x += 25;
+  // fill('green');
+  // circle(p_ab1.x, p_ab1.y, 10);
+  // circle(p_ab2.x, p_ab2.y, 10);
+
+  noFill();
+  bezier(gateEdges[4].tr_x, gateEdges[4].tr_y, p_ab1.x, p_ab1.y, p_ab2.x, p_ab2.y, gateEdges[3].br_x, gateEdges[3].br_y);
+
+
+  // 1T to 8B
+  let C = createVector(gateEdges[3].tr_x, gateEdges[3].tr_y);
+  let D = createVector(gateEdges[4].br_x, gateEdges[4].br_y);
+  dist = p5.Vector.dist(C,D);
+  let cd1 = dist * 0.25;
+  let cd2 = dist * 0.75;
+  
+  let unit_cd = p5.Vector.sub(C, D);
+  unit_cd.normalize(); 
+  
+  let p_cd1 = createVector(D.x + unit_cd.x * cd1, D.y + unit_cd.y * cd1);
+  let p_cd2 = createVector(D.x + unit_cd.x * cd2, D.y + unit_cd.y * cd2);
+
+  p_cd1.x += 25*3;
+  p_cd2.x += 25*3;   
+  
+  bezier(gateEdges[4].br_x, gateEdges[4].br_y, p_cd1.x, p_cd1.y, p_cd2.x, p_cd2.y, gateEdges[3].tr_x, gateEdges[3].tr_y);
+}
+
+function createTrackLines() {
+  for (let i=0; i < 3; i++) {
+    line(gateEdges[i].tr_x, gateEdges[i].tr_y, gateEdges[i+1].tl_x, gateEdges[i+1].tl_y);
+    line(gateEdges[i].br_x, gateEdges[i].br_y, gateEdges[i+1].bl_x, gateEdges[i+1].bl_y);
+  }
+  for (let i=4; i < 7; i++) {
+    line(gateEdges[i].tl_x, gateEdges[i].tl_y, gateEdges[i+1].tr_x, gateEdges[i+1].tr_y);
+    line(gateEdges[i].bl_x, gateEdges[i].bl_y, gateEdges[i+1].br_x, gateEdges[i+1].br_y);
+  }
+}
+
 function debug_drawSectors() {
   //  x1,y1 ,x2,y2
   line(0, 0, 0, 500);
@@ -177,7 +231,8 @@ function debug_drawPointLines() {
 }
 
 function debug_drawRectPoints() {
-  for (let i=0; i < gateEdges.length; i ++) {
+  fill('red');
+  for (let i=0; i < gateEdges.length; i++) {
     circle(gateEdges[i].tl_x, gateEdges[i].tl_y, 10);
     circle(gateEdges[i].tr_x, gateEdges[i].tr_y, 10);
     circle(gateEdges[i].bl_x, gateEdges[i].bl_y, 10);
@@ -185,6 +240,3 @@ function debug_drawRectPoints() {
   }
 }
 
-function debug_drawRectLines() {
-
-}
