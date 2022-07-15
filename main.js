@@ -144,7 +144,7 @@ function createTrackCornersRight() {
   // C = 3_tr
   // D = 4_br
 
-  // 1B to 8T
+  // 3B to 4T
   let A = createVector(gateEdges[3].br_x, gateEdges[3].br_y);
   let B = createVector(gateEdges[4].tr_x, gateEdges[4].tr_y);
   
@@ -172,7 +172,7 @@ function createTrackCornersRight() {
   bezier(gateEdges[4].tr_x, gateEdges[4].tr_y, p_ab1.x, p_ab1.y, p_ab2.x, p_ab2.y, gateEdges[3].br_x, gateEdges[3].br_y);
 
 
-  // 1T to 8B
+  // 3T to 4B
   let C = createVector(gateEdges[3].tr_x, gateEdges[3].tr_y);
   let D = createVector(gateEdges[4].br_x, gateEdges[4].br_y);
   dist = p5.Vector.dist(C,D);
