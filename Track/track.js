@@ -30,7 +30,7 @@ function createPoints_Gates() {
   function createGates() {
     fill(gate_color);
     for (let i=0; i < Points.length; i++) {
-      rect(Points[i].x - gateOffsetX, Points[i].y - gateOffsetY, gateW, gateH);    
+        rect(Points[i].x - gateOffsetX, Points[i].y - gateOffsetY, gateW, gateH);    
     }
   }
   
