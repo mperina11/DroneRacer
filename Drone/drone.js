@@ -15,7 +15,7 @@ Swarm.prototype.addDrone = function (b) {
 
 function Drone(x, y) {
   this.acceleration = createVector(0, 0);
-  this.velocity = createVector(random(-1, 1), random(-1, 1));
+  this.velocity = createVector(0, 0);
   this.position = createVector(x, y);
   this.r = 4.0;
   this.maxspeed = 3;    // Maximum speed
@@ -82,8 +82,8 @@ Drone.prototype.render = function () {
   // fill('#F679E5');
   fill(this.color);
   // stroke(200);
-  noStroke();
   push();
+  noStroke();  
   translate(this.position.x, this.position.y);
   rotate(theta);
 
@@ -166,13 +166,14 @@ Drone.prototype.separate = function (drones) {
 }
 
 Drone.prototype.findGate = function (drones) {
-  let eat = createVector(0, 0);
+  // let eat = createVector(0, 0);
 
-  if (feed_flag) {
-    eat = this.seek(feedPosition);
-  }
+  // if (feed_flag) {
+  //   eat = this.seek(feedPosition);
+  // }
 
-  return eat;
+  let temp = createVector(0,0);
+  return temp;
 }
 
 // check if drone is at gate

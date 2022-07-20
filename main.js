@@ -33,6 +33,13 @@ function setup() {
   createP("- text here");
 
   createPoints_Gates();
+
+  swarm = new Swarm();
+  for (let i=0; i < 1; i++) {
+    let d = new Drone(50, 100);
+    swarm.addDrone(d);
+    console.log("D: ", d);
+  }
 }
 
 function draw() {
@@ -55,7 +62,9 @@ function draw() {
   createTrackLines();
 
   // Run Drones
-  testDraw();
+  // testDraw();
+
+  swarm.run();
 }
 
 function testDraw() { // Test Drone Shape
@@ -63,7 +72,7 @@ function testDraw() { // Test Drone Shape
   
   fill('yellow');
   noStroke();
-  translate(200, 200);
+  translate(500, 200);
   
   beginShape();
 
