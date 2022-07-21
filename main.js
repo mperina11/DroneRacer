@@ -23,6 +23,10 @@ let debug = false;
 let Points = [];
 let gateEdges = [];
 
+// Laps
+let Finish = 5;
+let finished = false;   
+
 // Drones
 let swarm; // hold drones 
 let pause = true; // pause
@@ -32,7 +36,7 @@ let movingRight = false;
 let movingLeft = false;
 let movingUp = false;
 let movingDown = false;
-let player_speed = 5;
+let player_speed = 4.2;
 let player_color = 'white';
 let player_pause = true;
 let player_lap = 0; // init to 0
@@ -85,15 +89,26 @@ function draw() {
   playerCheckGate();
   console.log("PG: ", player_current_gate);
 
-
   // Display
   let display_gate = player_current_gate;
   if (player_current_gate == 0) {
     display_gate = 8;
   }
   textSize(20);
-  text("Current Lap = " + player_lap + 
+  text("Current Lap = " + player_lap + " | Race Finished = " + finished +
        "\nGates Passed = " + display_gate, 10, 10, width/2, height/2);  
+
+  for (let i=0; i < Points.length; i++) {
+    fill('black');
+    text(i+1, Points[i].x - 5, Points[i].y - 5, width/2, height/2);
+  }
+
+  if (player_lap == Finish) {
+    pause = true;
+    player_pause = true;
+    finished = true;
+  }
+
 }
 
 function Start() {

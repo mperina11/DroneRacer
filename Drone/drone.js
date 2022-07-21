@@ -73,6 +73,7 @@ Drone.prototype.swarm = function (drones) {
 
 // Method to update location
 Drone.prototype.update = function () {
+
   // Update velocity
   this.velocity.add(this.acceleration);
   // Limit speed
