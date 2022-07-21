@@ -35,8 +35,8 @@ function setup() {
   createPoints_Gates();
 
   swarm = new Swarm();
-  for (let i=0; i < 1; i++) {
-    let d = new Drone(50, 100);
+  for (let i=0; i < 5; i++) {
+    let d = new Drone(50, 100 + 25*i);
     swarm.addDrone(d);
     console.log("D: ", d);
   }

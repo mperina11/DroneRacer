@@ -14,6 +14,10 @@ Swarm.prototype.addDrone = function (b) {
 
 
 function Drone(x, y) {
+  this.current_gate = 0; // init to 0
+	this.lap = 0; // init to 0
+	this.last_gate_passed = false; // at last gate to track lap
+
   this.acceleration = createVector(0, 0);
   this.velocity = createVector(0, 0);
   this.position = createVector(x, y);
@@ -41,9 +45,9 @@ Drone.prototype.swarm = function (drones) {
   let avo = this.avoid(drones);      // Avoid walls + Box
   let gat = this.findGate(drones);       // Feed
   // Arbitrarily weight these forces
-  sep.mult(10.0);
+  sep.mult(5.0);
   avo.mult(3.0);
-  gat.mult(10.0);
+  gat.mult(7.0);
   // Add the force vectors to acceleration
   this.applyForce(sep);
   this.applyForce(avo);
@@ -60,6 +64,22 @@ Drone.prototype.update = function () {
   this.position.add(this.velocity);
   // Reset accelertion to 0 each cycle
   this.acceleration.mult(0);
+
+  // 
+  if (this.atGate()) {
+		// count lap
+		if (this.current_gate == 0 && this.last_gate_passed) {
+			this.lap++;
+      // console.log("Lap: ", this.lap);
+		}
+		// next gate
+		this.current_gate++;
+		// check last gate 
+		if (this.current_gate == 8) {
+			this.current_gate = 0; // back to start
+			this.last_gate_passed = true;
+		}
+	}
 }
 
 // A method that calculates and applies a steering force towards a target
@@ -85,7 +105,7 @@ Drone.prototype.render = function () {
   push();
   noStroke();  
   translate(this.position.x, this.position.y);
-  rotate(theta);
+  // rotate(theta);
 
   beginShape();
 
@@ -133,7 +153,7 @@ Drone.prototype.borders = function () {
 // Separation
 // Method checks for nearby boids and steers away
 Drone.prototype.separate = function (drones) {
-  let desiredseparation = 25.0;
+  let desiredseparation = 50.0;
   let steer = createVector(0, 0);
   let count = 0;
   // For every boid in the system, check if it's too close
@@ -165,24 +185,29 @@ Drone.prototype.separate = function (drones) {
   return steer;
 }
 
-Drone.prototype.findGate = function (drones) {
-  // let eat = createVector(0, 0);
-
-  // if (feed_flag) {
-  //   eat = this.seek(feedPosition);
-  // }
-
-  let temp = createVector(0,0);
-  return temp;
+Drone.prototype.findGate = function () {
+  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
+  let find = this.seek(p);
+  return find;
 }
 
 // check if drone is at gate
 Drone.prototype.atGate = function () {
-  // at gate
-  // return true;
+  // let x_dst = p5.Vector.dist(this.position, Points[this.current_gate].x);
+	// let y_dst = p5.Vector.dist(this.position, Points[this.current_gate].y);
+	
+	// if (x_dst < 2 && y_dst < 2) {
+	// 	return true;
+	// }
+	
+  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
+  let dst = p5.Vector.dist(this.position, p);
 
-  // not at gate
-  // return false;
+  if (dst < 2) {
+    return true;
+  }
+
+	return false;
 }
 
 
