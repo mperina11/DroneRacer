@@ -127,53 +127,7 @@ Drone.prototype.seek = function (target) {
 }
 
 Drone.prototype.render = function () {
-  // // Draw a triangle rotated in the direction of velocity
-  // let theta = this.velocity.heading() + radians(90);
-  // // fill(127);
-  // // fill('#F679E5');
-  // fill(this.color);
-  // // stroke(200);
-  // push();
-  // noStroke();  
-  // translate(this.position.x, this.position.y);
-  // // rotate(theta);
-
-  // beginShape();
-
-  // // Top Left
-  // vertex(5, -5);
-  // vertex(20, -10);
-  // vertex(25, -25);
-  // vertex(10, -20);
-  // vertex(5, -5);
-
-  // // Bottom Right
-  // vertex(5, 5);
-  // vertex(20, 10);
-  // vertex(25, 25);
-  // vertex(10, 20);
-  // vertex(5, 5);
-
-  // // Bottom Left
-  // vertex(-5, 5);
-  // vertex(-20, 10);
-  // vertex(-25, 25);
-  // vertex(-10, 20);
-  // vertex(-5, 5);
-
-  // // Top Left
-  // vertex(-5, -5);
-  // vertex(-20, -10);
-  // vertex(-25, -25);
-  // vertex(-10, -20);
-  // vertex(-5, -5);
-
-  // endShape();
-
-  // pop();
-
   Type_B(this.position.x, this.position.y, this.color);
-
 }
 
 
@@ -213,26 +167,14 @@ Drone.prototype.separate = function (drones) {
 }
 
 Drone.prototype.findGate = function () {
-  // let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
-  // let find = this.seek(p);
-  // return find;
-  
-  
   let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y + this.current_gateOffset);
   let find = this.seek(p);
-  // circle(p.x, p.y, 10);
+  // circle(p.x, p.y, 10); // Debug circle
   return find;
 }
 
 // check if drone is at gate
 Drone.prototype.atGate = function () {
-  // let x_dst = p5.Vector.dist(this.position, Points[this.current_gate].x);
-	// let y_dst = p5.Vector.dist(this.position, Points[this.current_gate].y);
-	
-	// if (x_dst < 2 && y_dst < 2) {
-	// 	return true;
-	// }
-
   let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y + this.current_gateOffset);
   let dst = p5.Vector.dist(this.position, p);
 
@@ -260,21 +202,6 @@ Drone.prototype.avoid = function (drones) {
   if (this.position.y > canvasH) { // height of canvas
     steer.add(createVector(0, -1));
   }
-
-  // Avoid Bottom Box
-  // rect(220, 290, 200, 220, 20, 20);
-  // LeftSide
-  // if (this.position.x == 210 && this.position.y >= 280) {
-  //   steer.add(createVector(0, 1));
-  // }
-  // // Top+
-  // if (this.position.x >= 210 && this.position.x <= 430 && this.position.y >= 280) {
-  //   steer.add(createVector(0, -1));
-  // }
-  // if (this.position.x == 430 && this.position.y >= 280) {
-  //   steer.add(createVector(0, 1));
-  // }
-
 
   return steer;
 }

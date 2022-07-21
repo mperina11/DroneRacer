@@ -46,6 +46,10 @@ let player_last_gate_passed = false;
 let xpos = 10;
 let ypos = 100;
 
+// Single Player
+let single_player = false;
+
+// date
 let date_start;
 let date_end;
 
@@ -89,14 +93,14 @@ function draw() {
   createTrackCornersRight();
   createTrackLines();
 
+  // Start AI Race
   Start();
   Pause();
   swarm.run();
   player_run();
   playerCheckGate();
-  // console.log("PG: ", player_current_gate);
 
-  // Display
+  // Display info
   let display_gate = player_current_gate;
   if (player_current_gate == 0) {
     display_gate = 8;
@@ -105,11 +109,13 @@ function draw() {
   text("Current Lap = " + player_lap + " | Race Finished = " + finished +
        "\nGates Passed = " + display_gate, 10, 10, width/2, height/2);  
 
+  // Display Gate #'s
   for (let i=0; i < Points.length; i++) {
     fill('black');
     text(i+1, Points[i].x - 5, Points[i].y - 5, width/2, height/2);
   }
 
+  // Check for Finish
   if (player_lap == Finish && !Done) {
     pause = true;
     player_pause = true;
@@ -118,19 +124,22 @@ function draw() {
     date_end = Date.now();
     console.log("Date End: ", date_end);
     console.log("Date Dif: ", (date_end - date_start) / 1000);
+  }
+
+  if (single_player) {
 
   }
 
 }
 
-function Start() {
+function Start() { // start
   if (key == 'n') {
     pause = false; 
     player_pause = false; 
   }
 }
 
-function Pause() {
+function Pause() { // stop
   if (key == 'm') {
     pause = true; 
     player_pause = true;
@@ -139,14 +148,9 @@ function Pause() {
 
 function player_run() {
   
-  // draw moving character
-  // fill(0, 0, 255);
-  // ellipse(xpos, ypos, 75, 75);
-  
   Type_B(xpos, ypos, player_color);
 
   if (!player_pause) {
-    // update moving character
     if (movingRight) {
       xpos += player_speed;
     }
