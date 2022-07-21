@@ -5,6 +5,7 @@ function Swarm() {
 Swarm.prototype.run = function () {
   for (let i = 0; i < this.drones.length; i++) {
     this.drones[i].run(this.drones);  // Passing the entire list of boids to each boid individually
+    // console.log("Drone Current Gate: ", this.drones[i].current_gate);
   }
 }
 

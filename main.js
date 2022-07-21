@@ -24,8 +24,9 @@ let Points = [];
 let gateEdges = [];
 
 // Laps
-let Finish = 5;
+let Finish = 1;
 let finished = false;   
+let Done = false;
 
 // Drones
 let swarm; // hold drones 
@@ -45,12 +46,15 @@ let player_last_gate_passed = false;
 let xpos = 10;
 let ypos = 100;
 
+let date_start;
+let date_end;
+
 function setup() {
   createCanvas(canvasW, canvasH);
   createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
   createButton("Toggle Debug").mousePressed(() => { if (debug) {debug=false;} else {debug=true;} });
-  createP(" 'n' to Start ");
-  createP(" 'm' to Pause ");
+  createP(" 'n' to Start   |   Fly through each gate, track progress in counters");
+  createP(" 'm' to Pause   |   'WASD' to move your 'White' drone");
 
   createPoints_Gates();
 
@@ -58,9 +62,12 @@ function setup() {
   for (let i=1; i < 5; i++) {
     let d = new Drone(10, 100 + 25*i);
     swarm.addDrone(d);
-    console.log("D: ", d);
+    // console.log("D: ", d);
   }
   randomSeed(seed);
+
+  date_start = Date.now();
+  console.log("Date: ", date_start);
 }
 
 function draw() {
@@ -87,7 +94,7 @@ function draw() {
   swarm.run();
   player_run();
   playerCheckGate();
-  console.log("PG: ", player_current_gate);
+  // console.log("PG: ", player_current_gate);
 
   // Display
   let display_gate = player_current_gate;
@@ -103,10 +110,15 @@ function draw() {
     text(i+1, Points[i].x - 5, Points[i].y - 5, width/2, height/2);
   }
 
-  if (player_lap == Finish) {
+  if (player_lap == Finish && !Done) {
     pause = true;
     player_pause = true;
     finished = true;
+    Done = true;
+    date_end = Date.now();
+    console.log("Date End: ", date_end);
+    console.log("Date Dif: ", (date_end - date_start) / 1000);
+
   }
 
 }
