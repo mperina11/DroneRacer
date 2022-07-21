@@ -35,7 +35,7 @@ function setup() {
   createPoints_Gates();
 
   swarm = new Swarm();
-  for (let i=0; i < 10; i++) {
+  for (let i=0; i < 5; i++) {
     let d = new Drone(50, 100 + 25*i);
     swarm.addDrone(d);
     console.log("D: ", d);
@@ -69,10 +69,10 @@ function draw() {
 
 
   // 
-  if (random(0, 1) < 0.5) {
-    console.log("Positive");
-  }
-  else {
-    console.log("Negative");
-  }
+  // if (random(0, 1) < 0.5) {
+  //   console.log("Positive");
+  // }
+  // else {
+  //   console.log("Negative");
+  // }
 }

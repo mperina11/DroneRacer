@@ -18,11 +18,24 @@ function Drone(x, y) {
 	this.lap = 0; // init to 0
 	this.last_gate_passed = false; // at last gate to track lap
 
+  let sign;
+  if (random(0, 1) < 0.5) {
+    sign = 1;
+  }
+  else {
+    sign = -1;
+  }
+
+  this.current_gateOffset = sign * (gateOffsetY/(random(1,3)));
+  // console.log("CO: ", this.current_gateOffset);
+  // this.current_gateOffset = 0; // init to 0
+
   this.acceleration = createVector(0, 0);
   this.velocity = createVector(0, 0);
   this.position = createVector(x, y);
   this.r = 4.0;
-  this.maxspeed = 3;    // Maximum speed
+  // this.maxspeed = 3;    // Maximum speed
+  this.maxspeed = random(4,5);
   this.maxforce = 0.05; // Maximum steering force
   this.color = random(mix);
 }
@@ -67,6 +80,19 @@ Drone.prototype.update = function () {
 
   // 
   if (this.atGate()) {
+
+    // update offset
+    let sign;
+    if (random(0, 1) < 0.5) {
+      sign = 1;
+    }
+    else {
+      sign = -1;
+    }
+    this.current_gateOffset = sign * (gateOffsetY / (random(1, 3)));
+    // console.log("CO: ", this.current_gateOffset);
+    this.maxspeed = random(4,5);
+
 		// count lap
 		if (this.current_gate == 0 && this.last_gate_passed) {
 			this.lap++;
@@ -186,8 +212,14 @@ Drone.prototype.separate = function (drones) {
 }
 
 Drone.prototype.findGate = function () {
-  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
+  // let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
+  // let find = this.seek(p);
+  // return find;
+  
+  
+  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y + this.current_gateOffset);
   let find = this.seek(p);
+  // circle(p.x, p.y, 10);
   return find;
 }
 
@@ -199,11 +231,11 @@ Drone.prototype.atGate = function () {
 	// if (x_dst < 2 && y_dst < 2) {
 	// 	return true;
 	// }
-	
-  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y);
+
+  let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y + this.current_gateOffset);
   let dst = p5.Vector.dist(this.position, p);
 
-  if (dst < 2) {
+  if (dst < 4) {
     return true;
   }
 
