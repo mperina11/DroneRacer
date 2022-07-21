@@ -35,15 +35,16 @@ function setup() {
   createPoints_Gates();
 
   swarm = new Swarm();
-  for (let i=0; i < 5; i++) {
+  for (let i=0; i < 10; i++) {
     let d = new Drone(50, 100 + 25*i);
     swarm.addDrone(d);
     console.log("D: ", d);
   }
+  randomSeed(seed);
 }
 
 function draw() {
-  randomSeed(seed);
+  // randomSeed(seed);
   background('#219ebc');
 
   // Debug
@@ -62,49 +63,16 @@ function draw() {
   createTrackLines();
 
   // Run Drones
-  // testDraw();
+  Type_A();
 
   swarm.run();
-}
 
-function testDraw() { // Test Drone Shape
-  push();
-  
-  fill('yellow');
-  noStroke();
-  translate(500, 200);
-  
-  beginShape();
 
-  // Top Left
-  vertex(5, -5); 
-  vertex(20, -10);
-  vertex(25, -25);
-  vertex(10, -20);
-  vertex(5, -5);
-
-  // Bottom Right
-  vertex(5, 5); 
-  vertex(20, 10);
-  vertex(25, 25);
-  vertex(10, 20);
-  vertex(5, 5);
-
-  // Bottom Left
-  vertex(-5, 5); 
-  vertex(-20, 10);
-  vertex(-25, 25);
-  vertex(-10, 20);
-  vertex(-5, 5);
-
-  // Top Left
-  vertex(-5, -5); 
-  vertex(-20, -10);
-  vertex(-25, -25);
-  vertex(-10, -20);
-  vertex(-5, -5);
-
-  endShape();
-  
-  pop();
+  // 
+  if (random(0, 1) < 0.5) {
+    console.log("Positive");
+  }
+  else {
+    console.log("Negative");
+  }
 }
