@@ -27,18 +27,31 @@ let gateEdges = [];
 let swarm; // hold drones 
 let pause = true; // pause
 
+// Player
+let movingRight = false;
+let movingLeft = false;
+let movingUp = false;
+let movingDown = false;
+let player_speed = 5;
+let player_color = 'white';
+let player_pause = true;
+let player_lap = 0; // init to 0
+let player_current_gate = 0; // init to 0
+let player_last_gate_passed = false;
+let xpos = 10;
+let ypos = 100;
+
 function setup() {
   createCanvas(canvasW, canvasH);
-  createButton("PLAY").mousePressed(() => { pause = false; });
-  createButton("PAUSE").mousePressed(() => { pause = true; });
   createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
   createButton("Toggle Debug").mousePressed(() => { if (debug) {debug=false;} else {debug=true;} });
-  createP("- text here");
+  createP(" 'n' to Start ");
+  createP(" 'm' to Pause ");
 
   createPoints_Gates();
 
   swarm = new Swarm();
-  for (let i=0; i < 5; i++) {
+  for (let i=1; i < 5; i++) {
     let d = new Drone(10, 100 + 25*i);
     swarm.addDrone(d);
     console.log("D: ", d);
@@ -65,17 +78,122 @@ function draw() {
   createTrackCornersRight();
   createTrackLines();
 
-  // Run Drones
-  // Type_A(100, 100, 'green');
-
+  Start();
+  Pause();
   swarm.run();
+  player_run();
+  playerCheckGate();
+  console.log("PG: ", player_current_gate);
 
 
-  // 
-  // if (random(0, 1) < 0.5) {
-  //   console.log("Positive");
-  // }
-  // else {
-  //   console.log("Negative");
-  // }
+  // Display
+  let display_gate = player_current_gate;
+  if (player_current_gate == 0) {
+    display_gate = 8;
+  }
+  textSize(20);
+  text("Current Lap = " + player_lap + 
+       "\nGates Passed = " + display_gate, 10, 10, width/2, height/2);  
+}
+
+function Start() {
+  if (key == 'n') {
+    pause = false; 
+    player_pause = false; 
+  }
+}
+
+function Pause() {
+  if (key == 'm') {
+    pause = true; 
+    player_pause = true;
+  }
+}
+
+function player_run() {
+  
+  // draw moving character
+  // fill(0, 0, 255);
+  // ellipse(xpos, ypos, 75, 75);
+  
+  Type_B(xpos, ypos, player_color);
+
+  if (!player_pause) {
+    // update moving character
+    if (movingRight) {
+      xpos += player_speed;
+    }
+    if (movingLeft) {
+      xpos -= player_speed;
+    }
+    if (movingUp) {
+      ypos -= player_speed;
+    }
+    if (movingDown) {
+      ypos += player_speed;
+    }
+}
+}
+
+
+function keyPressed() {
+  if (key == 'w') {
+    movingUp = true;
+  }
+  if (key == 'a') {
+    movingLeft = true;
+  }
+  if (key == 's') {
+    movingDown = true;
+  }
+  if (key == 'd') {
+    movingRight = true;
+  }
+}
+
+function keyReleased() {
+  if (key == 'w') {
+    movingUp = false;
+  }
+  if (key == 'a') {
+    movingLeft = false;
+  }
+  if (key == 's') {
+    movingDown = false;
+  }
+  if (key == 'd') {
+    movingRight = false;
+  }
+}
+
+function player_atGate() {
+
+  let position = createVector(xpos, ypos);
+
+  let p = createVector(Points[player_current_gate].x, Points[player_current_gate].y);
+  let dst = p5.Vector.dist(position, p);
+
+  if (dst < gateOffsetY) {
+    return true;
+  }
+
+	return false;
+}
+
+function playerCheckGate() {
+  if (player_atGate()) {
+
+		// count lap
+		if (player_current_gate == 0 && player_last_gate_passed) {
+			player_lap++;
+			console.log("PL: ", player_lap);
+		}
+		// next gate
+		player_current_gate++;
+		// check last gate 
+		if (player_current_gate == 8) {
+			player_current_gate = 0; // back to start
+			player_last_gate_passed = true;
+		}
+	}
 }
