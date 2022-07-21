@@ -69,8 +69,64 @@ function Type_B(x, y, color) { //
     pop();
 }
 
-function Type_C() {
+function Type_C(x, y, color) {
+    fill(color);
+    // stroke(200);
+    push();
+    noStroke();
+    translate(x, y);
+    // rotate(theta);
 
+    beginShape();
+
+    let scale = 5;
+
+    // Top Left
+    vertex(-2 *scale , 1 *scale);
+    vertex(-3 *scale , 3 *scale);
+    vertex(-1 *scale , 2 *scale);
+    vertex(0, 0);
+ 
+    vertex(2  *scale, 1 *scale);
+    vertex(3  *scale, 3 *scale);
+    vertex(1  *scale, 2 *scale);
+    vertex(0, 0);
+  
+    vertex(2  *scale, -1 *scale);
+    vertex(3  *scale, -3 *scale);
+    vertex(1  *scale, -2 *scale);
+    vertex(0, 0);
+
+    vertex(-2* scale, -1 *scale);
+    vertex(-3* scale, -3 *scale);
+    vertex(-1* scale, -2 *scale);
+    vertex(0, 0);
+
+
+    // // Bottom Right
+    // vertex(5, 5);
+    // vertex(20, 10);
+    // vertex(25, 25);
+    // vertex(10, 20);
+    // vertex(5, 5);
+
+    // // Bottom Left
+    // vertex(-5, 5);
+    // vertex(-20, 10);
+    // vertex(-25, 25);
+    // vertex(-10, 20);
+    // vertex(-5, 5);
+
+    // // Top Left
+    // vertex(-5, -5);
+    // vertex(-20, -10);
+    // vertex(-25, -25);
+    // vertex(-10, -20);
+    // vertex(-5, -5);
+
+    endShape();
+
+    pop();
 }
 
 // const droneTypes = [Type_A, Type_B];

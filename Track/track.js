@@ -23,8 +23,8 @@ function createPoints_Gates() {
   
     gate_color = random(mix);
 
-    console.log(Points);
-    console.log(gateEdges);
+    // console.log(Points);
+    // console.log(gateEdges);
   }
   
   function createGates() {

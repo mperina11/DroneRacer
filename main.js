@@ -74,7 +74,7 @@ function setup() {
   randomSeed(seed);
 
   date_start = Date.now();
-  console.log("Date: ", date_start);
+  // console.log("Date: ", date_start);
 }
 
 function draw() {
@@ -110,8 +110,8 @@ function draw() {
        display_gate = 8;
      }
      textSize(20);
-     text("Current Lap = " + player_lap + " | Race Finished = " + finished + " | Time = " + timer +
-       "\nGates Passed = " + display_gate, 10, 10, width / 2, height / 2);
+     text("Current Lap = " + player_lap + " | Race Finished = " + finished + " | Time = " + timer + "              Single Player" +
+       "\nGates Passed = " + display_gate, 10, 10, width, height / 2);
  
      // Display Gate #'s
      for (let i = 0; i < Points.length; i++) {
@@ -126,9 +126,9 @@ function draw() {
        finished = true;
        Done = true;
        date_end = Date.now();
-       console.log("Date End: ", date_end);
+      //  console.log("Date End: ", date_end);
        timer = date_end - date_start;
-       console.log("Date Dif: ", (timer) / 1000);
+      //  console.log("Date Dif: ", (timer) / 1000);
      }
   }
   else { // Start AI Race
@@ -146,7 +146,8 @@ function draw() {
     }
     textSize(20);
     text("Current Lap = " + player_lap + " | Race Finished = " + finished +
-      "\nGates Passed = " + display_gate, 10, 10, width / 2, height / 2);
+     "                                    AI Race" +
+      "\nGates Passed = " + display_gate, 10, 10, width, height / 2);
 
     // Display Gate #'s
     for (let i = 0; i < Points.length; i++) {
@@ -161,8 +162,8 @@ function draw() {
       finished = true;
       Done = true;
       date_end = Date.now();
-      console.log("Date End: ", date_end);
-      console.log("Date Dif: ", (date_end - date_start) / 1000);
+      // console.log("Date End: ", date_end);
+      // console.log("Date Dif: ", (date_end - date_start) / 1000);
     }
   }
 
@@ -184,7 +185,7 @@ function Pause() { // stop
 
 function player_run() {
 
-  Type_B(xpos, ypos, player_color);
+  Type_C(xpos, ypos, player_color);
 
   if (!player_pause) {
     if (movingRight) {
@@ -253,7 +254,7 @@ function playerCheckGate() {
     // count lap
     if (player_current_gate == 0 && player_last_gate_passed) {
       player_lap++;
-      console.log("PL: ", player_lap);
+      // console.log("PL: ", player_lap);
     }
     // next gate
     player_current_gate++;

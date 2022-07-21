@@ -127,7 +127,7 @@ Drone.prototype.seek = function (target) {
 }
 
 Drone.prototype.render = function () {
-  Type_B(this.position.x, this.position.y, this.color);
+  Type_C(this.position.x, this.position.y, this.color);
 }
 
 
