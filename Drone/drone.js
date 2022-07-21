@@ -17,7 +17,8 @@ function Drone(x, y) {
   this.current_gate = 0; // init to 0
 	this.lap = 0; // init to 0
 	this.last_gate_passed = false; // at last gate to track lap
-
+  // this.type = random(droneTypesSelect);
+  // console.log("T: ", this.type);
   let sign;
   if (random(0, 1) < 0.5) {
     sign = 1;
@@ -41,9 +42,11 @@ function Drone(x, y) {
 }
 
 Drone.prototype.run = function (drones) {
-  this.swarm(drones);
-  this.update();
-  // this.borders();
+  if (!pause) {
+    this.swarm(drones);
+    this.update();
+}
+  
   this.render();
 }
 
@@ -55,15 +58,15 @@ Drone.prototype.applyForce = function (force) {
 // We accumulate a new acceleration each time based on three rules
 Drone.prototype.swarm = function (drones) {
   let sep = this.separate(drones);   // Separation
-  let avo = this.avoid(drones);      // Avoid walls + Box
+  // let avo = this.avoid(drones);      // Avoid walls + Box
   let gat = this.findGate(drones);       // Feed
   // Arbitrarily weight these forces
   sep.mult(5.0);
-  avo.mult(3.0);
+  // avo.mult(3.0);
   gat.mult(7.0);
   // Add the force vectors to acceleration
   this.applyForce(sep);
-  this.applyForce(avo);
+  // this.applyForce(avo);
   this.applyForce(gat);
 }
 
@@ -122,59 +125,55 @@ Drone.prototype.seek = function (target) {
 }
 
 Drone.prototype.render = function () {
-  // Draw a triangle rotated in the direction of velocity
-  let theta = this.velocity.heading() + radians(90);
-  // fill(127);
-  // fill('#F679E5');
-  fill(this.color);
-  // stroke(200);
-  push();
-  noStroke();  
-  translate(this.position.x, this.position.y);
-  // rotate(theta);
+  // // Draw a triangle rotated in the direction of velocity
+  // let theta = this.velocity.heading() + radians(90);
+  // // fill(127);
+  // // fill('#F679E5');
+  // fill(this.color);
+  // // stroke(200);
+  // push();
+  // noStroke();  
+  // translate(this.position.x, this.position.y);
+  // // rotate(theta);
 
-  beginShape();
+  // beginShape();
 
-  // Top Left
-  vertex(5, -5);
-  vertex(20, -10);
-  vertex(25, -25);
-  vertex(10, -20);
-  vertex(5, -5);
+  // // Top Left
+  // vertex(5, -5);
+  // vertex(20, -10);
+  // vertex(25, -25);
+  // vertex(10, -20);
+  // vertex(5, -5);
 
-  // Bottom Right
-  vertex(5, 5);
-  vertex(20, 10);
-  vertex(25, 25);
-  vertex(10, 20);
-  vertex(5, 5);
+  // // Bottom Right
+  // vertex(5, 5);
+  // vertex(20, 10);
+  // vertex(25, 25);
+  // vertex(10, 20);
+  // vertex(5, 5);
 
-  // Bottom Left
-  vertex(-5, 5);
-  vertex(-20, 10);
-  vertex(-25, 25);
-  vertex(-10, 20);
-  vertex(-5, 5);
+  // // Bottom Left
+  // vertex(-5, 5);
+  // vertex(-20, 10);
+  // vertex(-25, 25);
+  // vertex(-10, 20);
+  // vertex(-5, 5);
 
-  // Top Left
-  vertex(-5, -5);
-  vertex(-20, -10);
-  vertex(-25, -25);
-  vertex(-10, -20);
-  vertex(-5, -5);
+  // // Top Left
+  // vertex(-5, -5);
+  // vertex(-20, -10);
+  // vertex(-25, -25);
+  // vertex(-10, -20);
+  // vertex(-5, -5);
 
-  endShape();
+  // endShape();
 
-  pop();
+  // pop();
+
+  Type_B(this.position.x, this.position.y, this.color);
+
 }
 
-// Wraparound
-Drone.prototype.borders = function () {
-  if (this.position.x < -this.r) this.position.x = width + this.r;
-  if (this.position.y < -this.r) this.position.y = height + this.r;
-  if (this.position.x > width + this.r) this.position.x = -this.r;
-  if (this.position.y > height + this.r) this.position.y = -this.r;
-}
 
 // Separation
 // Method checks for nearby boids and steers away

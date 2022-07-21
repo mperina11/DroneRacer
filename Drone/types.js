@@ -1,37 +1,37 @@
-function Type_A() { // Four Rings
+function Type_A(x, y, color) { // Four Rings
     push();
 
-    let x = 300;
-    let y = 150;
+    // let x = 300;
+    // let y = 150;
     let size = 15;
 
     noFill();
-    stroke(255, 204, 0);
+    stroke(color);
     strokeWeight(3);
     translate(x, y);
 
-    beginShape();
+    // beginShape();
 
     circle(x - size / 2, y + size / 2, size);
     circle(x - size / 2, y - size / 2, size);
     circle(x + size / 2, y + size / 2, size);
     circle(x + size / 2, y - size / 2, size);
 
-    endShape();
+    // endShape();
 
     pop();
 }
 
-function Type_B() { //
+function Type_B(x, y, color) { //
     // Draw a triangle rotated in the direction of velocity
-    let theta = this.velocity.heading() + radians(90);
+    // let theta = this.velocity.heading() + radians(90);
     // fill(127);
     // fill('#F679E5');
-    fill(this.color);
+    fill(color);
     // stroke(200);
     push();
     noStroke();
-    translate(this.position.x, this.position.y);
+    translate(x, y);
     // rotate(theta);
 
     beginShape();
@@ -70,5 +70,8 @@ function Type_B() { //
 }
 
 function Type_C() {
-    
+
 }
+
+// const droneTypes = [Type_A, Type_B];
+// const droneTypesSelect = [0, 1];

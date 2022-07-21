@@ -17,7 +17,7 @@ const rainbow = ["#FF0000","#FF8700","#FFD300","#DEFF0A","#A1FF0A","#0AFF99","#0
 let gate_color;
 
 // Debug Flag
-let debug = true;
+let debug = false;
 
 // Points
 let Points = [];
@@ -25,9 +25,12 @@ let gateEdges = [];
 
 // Drones
 let swarm; // hold drones 
+let pause = true; // pause
 
 function setup() {
   createCanvas(canvasW, canvasH);
+  createButton("PLAY").mousePressed(() => { pause = false; });
+  createButton("PAUSE").mousePressed(() => { pause = true; });
   createButton("Reroll").mousePressed(() => { seed++; createPoints_Gates(); });
   createButton("Toggle Debug").mousePressed(() => { if (debug) {debug=false;} else {debug=true;} });
   createP("- text here");
@@ -36,7 +39,7 @@ function setup() {
 
   swarm = new Swarm();
   for (let i=0; i < 5; i++) {
-    let d = new Drone(50, 100 + 25*i);
+    let d = new Drone(10, 100 + 25*i);
     swarm.addDrone(d);
     console.log("D: ", d);
   }
@@ -63,7 +66,7 @@ function draw() {
   createTrackLines();
 
   // Run Drones
-  Type_A();
+  // Type_A(100, 100, 'green');
 
   swarm.run();
 
