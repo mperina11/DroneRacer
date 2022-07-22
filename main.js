@@ -17,7 +17,7 @@ const rainbow = ["#FF0000", "#FF8700", "#FFD300", "#DEFF0A", "#A1FF0A", "#0AFF99
 let gate_color;
 
 // Debug Flag
-let debug = false;
+let debug = true;
 
 // Points
 let Points = [];
@@ -66,7 +66,7 @@ function setup() {
   createPoints_Gates();
 
   swarm = new Swarm();
-  for (let i = 1; i < 5; i++) {
+  for (let i = 1; i < 9; i++) {
     let d = new Drone(10, 100 + 25 * i);
     swarm.addDrone(d);
     // console.log("D: ", d);
@@ -84,10 +84,10 @@ function draw() {
   // Debug
   if (debug) {
     // debug_drawSectors();
-    debug_drawSectorOffsets();
+    //debug_drawSectorOffsets();
     // debug_drawPoints();
-    // debug_drawPointLines();
-    debug_drawRectPoints();
+    //debug_drawPointLines();
+    // debug_drawRectPoints();
   }
 
   // Draw Track

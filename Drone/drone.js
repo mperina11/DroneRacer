@@ -96,7 +96,7 @@ Drone.prototype.update = function () {
     }
     this.current_gateOffset = sign * (gateOffsetY / (random(1, 3)));
     // console.log("CO: ", this.current_gateOffset);
-    this.maxspeed = random(4,5);
+    this.maxspeed = random(3.5,5);
 
 		// count lap
 		if (this.current_gate == 0 && this.last_gate_passed) {
@@ -115,7 +115,7 @@ Drone.prototype.update = function () {
 
 // A method that calculates and applies a steering force towards a target
 // STEER = DESIRED MINUS VELOCITY
-Drone.prototype.seek = function (target) {
+Drone.prototype.flyTo = function (target) {
   let desired = p5.Vector.sub(target, this.position);  // A vector pointing from the location to the target
   // Normalize desired and scale to maximum speed
   desired.normalize();
@@ -168,7 +168,7 @@ Drone.prototype.separate = function (drones) {
 
 Drone.prototype.findGate = function () {
   let p = createVector(Points[this.current_gate].x, Points[this.current_gate].y + this.current_gateOffset);
-  let find = this.seek(p);
+  let find = this.flyTo(p);
   // circle(p.x, p.y, 10); // Debug circle
   return find;
 }
