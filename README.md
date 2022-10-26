@@ -1,5 +1,7 @@
 # DroneRacer
 
+![screenshot](./Images/screenshot.png)
+
 ## Description
 Race against AI drones on a procedurally generated track
 - reroll for a new track
